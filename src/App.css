@@ -44,3 +44,6 @@ body{
   background-color: rgba(0, 0, 0, 0.829);
   color: white;
 }
+#root > p{
+  color: white;
+}

@@ -3,7 +3,7 @@ import React, {useState, useRef} from 'react';
 import Board from './components/Board'
 import Result from './components/Result';
 
-const offsets = [
+const presets = [
   [0, 1, 2],
   [0, 3, 6],
   [0, 4, 8],
@@ -37,8 +37,8 @@ function App() {
     var symbol;
     for(var i = 0; i < 8; i++){
       for(var j = 0; j < 3; j++){
-        if(j === 0) symbol = board[offsets[i][j]];
-        if(board[offsets[i][j]] === ' ' || board[offsets[i][j]] !== symbol) break;
+        if(j === 0) symbol = board[presets[i][j]];
+        if(board[presets[i][j]] === ' ' || board[presets[i][j]] !== symbol) break;
         if(j === 2) return true;
       }
     }
