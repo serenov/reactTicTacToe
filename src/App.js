@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import Board from './components/Board'
 import Result from './components/Result';
 
@@ -16,24 +16,32 @@ const presets = [
 
 function App() {
   const [board, setBoard] = useState(new Array(9).fill(' '));
+  // const [board, setBoard] = useState(
+  // [
+  //   'X', 'O', ' ', 
+  //   ' ', ' ', 'O', 
+  //   'X', ' ', ' ',
+  // ]);
   const moveNumber = useRef(0);
   const result = useRef(2);
+  const copyBoard = useRef([...board]);
 
   function handler(index){
     var con = map(moveNumber.current);
     setBoard(prevVal => {
       if(prevVal[index] === ' '){
         prevVal[index] = con;
+        copyBoard.current[index] = con;
         moveNumber.current = moveNumber.current + 1;
         return [...prevVal];
       }
       return prevVal;
-    })
+    });
   }
   function map(moveNumber){
     return ((moveNumber % 2) === 0)? 'X': 'O';
   }
-  function hasEnded(){
+  function hasEnded(board){
     var symbol;
     for(var i = 0; i < 8; i++){
       for(var j = 0; j < 3; j++){
@@ -47,11 +55,47 @@ function App() {
   function reset(){
     moveNumber.current = 0;
     result.current = 2;
+    copyBoard.current.fill(' ');
     setBoard(new Array(9).fill(' '));
   }
 
-  result.current = hasEnded()? 1: moveNumber.current > 8? 0: 2;
+  function comp(turn = 1, movecnt = moveNumber.current){
+    // console.log(copyBoard.current);
+    if(hasEnded(copyBoard.current)) return (movecnt % 2 === 0)? -1: 1;
+    if(movecnt > 8) return 0;
+    
+    var evalulation = turn * -1;
+    var tempEval;
+    if(movecnt === moveNumber.current) {var index; console.log(copyBoard.current);}
 
+    for(var i = 0; i < 9; i++){
+      if(copyBoard.current[i] === ' '){
+        copyBoard.current[i] = map(movecnt);
+        tempEval = comp(-1 * turn, movecnt + 1);
+        if(tempEval * turn >= evalulation * turn){
+          evalulation = tempEval;
+          if(movecnt === moveNumber.current){
+            console.log(evalulation + " is the evalutation for: " + i)
+            index = i;
+            if(evalulation === turn) break;
+          }
+        }
+        copyBoard.current[i] = ' ';
+      }
+    }
+    if(movecnt === moveNumber.current) return index;
+    else return evalulation;
+    
+  }
+  
+  useEffect(() => {
+    if(moveNumber.current % 2 === 1)
+    handler(comp(-1));
+
+  })
+
+
+  result.current = hasEnded(board)? 1: moveNumber.current > 8? 0: 2
   return (
     <>
       <div className="App">
