@@ -16,20 +16,17 @@ const presets = [
 
 function App() {
   const [board, setBoard] = useState(new Array(9).fill(' '));
-  // const [board, setBoard] = useState(
-  // [
-  //   'X', 'O', ' ', 
-  //   ' ', ' ', 'O', 
-  //   'X', ' ', ' ',
-  // ]);
+
   const moveNumber = useRef(0);
   const result = useRef(2);
   const copyBoard = useRef([...board]);
+  const activeCell = useRef();
 
   function handler(index){
-    var con = map(moveNumber.current);
+    const con = map(moveNumber.current);
     setBoard(prevVal => {
       if(prevVal[index] === ' '){
+        activeCell.current = index;
         prevVal[index] = con;
         copyBoard.current[index] = con;
         moveNumber.current = moveNumber.current + 1;
@@ -58,15 +55,16 @@ function App() {
     copyBoard.current.fill(' ');
     setBoard(new Array(9).fill(' '));
   }
-
   function comp(turn = 1, movecnt = moveNumber.current){
-    // console.log(copyBoard.current);
+
     if(hasEnded(copyBoard.current)) return (movecnt % 2 === 0)? -1: 1;
     if(movecnt > 8) return 0;
-    
+
     var evalulation = turn * -1;
     var tempEval;
-    if(movecnt === moveNumber.current) {var index; console.log(copyBoard.current);}
+    if(movecnt === moveNumber.current) {var index; 
+      // console.log(copyBoard.current);
+    }
 
     for(var i = 0; i < 9; i++){
       if(copyBoard.current[i] === ' '){
@@ -75,7 +73,6 @@ function App() {
         if(tempEval * turn >= evalulation * turn){
           evalulation = tempEval;
           if(movecnt === moveNumber.current){
-            console.log(evalulation + " is the evalutation for: " + i)
             index = i;
             if(evalulation === turn) break;
           }
@@ -85,21 +82,21 @@ function App() {
     }
     if(movecnt === moveNumber.current) return index;
     else return evalulation;
-    
   }
-  
+
   useEffect(() => {
     if(moveNumber.current % 2 === 1)
-    handler(comp(-1));
-
+    setTimeout(() => handler(comp(-1)), 210);
+    // console.log(activeCell.current)
   })
-
 
   result.current = hasEnded(board)? 1: moveNumber.current > 8? 0: 2
   return (
     <>
       <div className="App">
-        <Board boardState={board} handler={handler}/>
+        {/* <Button/> */}
+        <Board boardState={board} handler={handler} activeCell={activeCell.current}/>
+
       </div>
       {result.current === 2 && <p>Turn: {map(moveNumber.current)}</p>}
       {result.current < 2 && <Result result={result.current} symbol={map(moveNumber.current - 1)} reset={reset}/> }

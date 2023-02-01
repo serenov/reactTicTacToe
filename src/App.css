@@ -2,16 +2,16 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+	border-color: #555555;
 }
 #root{
   position: relative;
-
 }
 body{
   display: grid;
   place-items: center;
   height: 100vh;
-  background-color: #121212;
+	background: #292929 !important;
 }
 .App{
   display: grid;
@@ -22,7 +22,7 @@ body{
 .cell{
   height:6rem;
   aspect-ratio: 1 / 1;
-  font-size: larger;
+  font-size: 2rem;
 }
 
 .result{
@@ -31,10 +31,11 @@ body{
   height: 100%;
   width: 100%;
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #292929b1;
   backdrop-filter: blur(1.1px);
   color: white;
   top: 0%;
+  animation: fadein 1s ease-out;
 }
 .result > button{
   border-radius: 50%;
@@ -46,4 +47,17 @@ body{
 }
 #root > p{
   color: white;
+}
+.active{
+  animation: fadein 0.2s linear;
+}
+@keyframes fadein {
+  0%{
+    opacity: 0;
+    /* background-color: red; */
+  }
+  100%{
+    opacity: 1;
+    /* background-color: green; */
+  }
 }
