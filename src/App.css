@@ -1,17 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Roboto:wght@100&display=swap');
 *{
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 	border-color: #555555;
+  color: #eeeeee;
+  background-color: #292929;
+  font-family: 'Fira Code', monospace;
 }
+
 #root{
   position: relative;
 }
 body{
+  font-family: '';
   display: grid;
   place-items: center;
   height: 100vh;
-	background: #292929 !important;
 }
 .App{
   display: grid;
@@ -31,9 +36,6 @@ body{
   height: 100%;
   width: 100%;
   position: absolute;
-  background-color: #292929b1;
-  backdrop-filter: blur(1.1px);
-  color: white;
   top: 0%;
   animation: fadein 1s ease-out;
 }
@@ -42,11 +44,6 @@ body{
   width: 5rem;
   aspect-ratio: 1 / 1;
   border: none;
-  background-color: rgba(0, 0, 0, 0.829);
-  color: white;
-}
-#root > p{
-  color: white;
 }
 .active{
   animation: fadein 0.2s linear;
@@ -54,10 +51,8 @@ body{
 @keyframes fadein {
   0%{
     opacity: 0;
-    /* background-color: red; */
   }
   100%{
     opacity: 1;
-    /* background-color: green; */
   }
 }
