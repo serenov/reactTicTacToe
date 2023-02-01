@@ -1,7 +1,5 @@
 import React from 'react'
 export default function Board({boardState, handler, activeCell}) {
-    // console.log("this is what you think it is" + boardState);
-    console.log(activeCell);
     return (
     <>
         {boardState.map((value, index) =>{
@@ -11,7 +9,6 @@ export default function Board({boardState, handler, activeCell}) {
                     {activeCell !== index && <>{value}</>}
                 </button>
             );
-            
         })}
     </>
     )

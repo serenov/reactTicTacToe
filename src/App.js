@@ -63,7 +63,6 @@ function App() {
     var evalulation = turn * -1;
     var tempEval;
     if(movecnt === moveNumber.current) {var index; 
-      // console.log(copyBoard.current);
     }
 
     for(var i = 0; i < 9; i++){
@@ -87,16 +86,13 @@ function App() {
   useEffect(() => {
     if(moveNumber.current % 2 === 1)
     setTimeout(() => handler(comp(-1)), 210);
-    // console.log(activeCell.current)
   })
 
   result.current = hasEnded(board)? 1: moveNumber.current > 8? 0: 2
   return (
     <>
       <div className="App">
-        {/* <Button/> */}
         <Board boardState={board} handler={handler} activeCell={activeCell.current}/>
-
       </div>
       {result.current === 2 && <p>Turn: {map(moveNumber.current)}</p>}
       {result.current < 2 && <Result result={result.current} symbol={map(moveNumber.current - 1)} reset={reset}/> }
